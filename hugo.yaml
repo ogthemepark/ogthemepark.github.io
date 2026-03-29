@@ -15,6 +15,29 @@ params:
 
   author:
     name: "ogthemepark"
+    headline: "Learning in public"
+    bio: "Hope is a good thing, maybe the best of things."
+    links:
+      - github: "https://github.com/ogthemepark"
+
+  homepage:
+    layout: "profile"
+    showRecent: true
+    showRecentItems: 5
+    showMoreLink: true
+    showMoreLinkDest: "/posts/"
+
+  article:
+    showDate: true
+    showReadingTime: true
+    showTableOfContents: true
+    showTags: true
+
+  list:
+    showCards: true
+
+  header:
+    layout: "basic"
 
 menus:
   main:
