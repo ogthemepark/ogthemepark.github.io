@@ -11,12 +11,12 @@ A personal learning-in-public blog hosted on GitHub Pages using Hugo and the Blo
 - Write posts in Markdown locally
 - Push to GitHub → auto-publish via GitHub Actions
 - Clean, modern aesthetic with dark/light mode
-- Start with `username.github.io`, migrate to custom domain later (no rework needed)
+- Start with `ogthemepark.github.io`, migrate to custom domain later (no rework needed)
 
 ## Architecture
 
 ```
-username/username.github.io  (GitHub repo)
+ogthemepark/ogthemepark.github.io  (GitHub repo)
 ├── .github/
 │   └── workflows/
 │       └── hugo.yaml          ← GitHub Actions: build + deploy on push to main
