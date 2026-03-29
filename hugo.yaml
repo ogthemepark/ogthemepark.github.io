@@ -1,3 +1,26 @@
-baseURL: https://example.org/
-locale: en-us
-title: My New Hugo Project
+baseURL: "https://ogthemepark.github.io/"
+languageCode: "en-us"
+title: "ogthemepark"
+theme: "blowfish"
+
+enableRobotsTXT: true
+paginate: 10
+
+params:
+  colorScheme: "ocean"
+  defaultAppearance: "dark"
+  autoSwitchAppearance: true
+  enableSearch: true
+  enableCodeCopy: true
+
+  author:
+    name: "ogthemepark"
+
+menus:
+  main:
+    - name: Posts
+      pageRef: /posts
+      weight: 10
+    - name: Tags
+      pageRef: /tags
+      weight: 20
