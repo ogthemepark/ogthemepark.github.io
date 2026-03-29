@@ -1,6 +1,6 @@
 # Hugo Blog Design Spec
 **Date:** 2026-03-29
-**Status:** Approved
+**Status:** Draft
 
 ## Overview
 
@@ -25,18 +25,27 @@ ogthemepark/ogthemepark.github.io  (GitHub repo)
 ├── static/                    ← Images, favicon, CNAME (added later for custom domain)
 ├── hugo.yaml                  ← Site configuration
 └── themes/
-    └── blowfish/              ← Theme as a git submodule
+    └── blowfish/              ← Theme as a git submodule (pinned to a release tag)
 ```
 
 ## Tech Stack
 
 | Layer | Choice | Notes |
 |---|---|---|
-| Static site generator | Hugo Extended v0.159.1 | Extended edition required for Blowfish (Tailwind CSS / SCSS) |
+| Static site generator | Hugo Extended v0.159.1 | Extended edition required for Blowfish (asset processing via Hugo Pipes) |
 | Theme | Blowfish | Tailwind CSS 3, dark/light mode, multiple color schemes, search |
 | Hosting | GitHub Pages | Free, supports custom domain (HTTPS enforced) |
 | CI/CD | GitHub Actions (official workflow) | Triggers on push to `main`, uses `actions/deploy-pages@v5` |
-| Theme management | Git submodule | Keeps theme version-pinned and updatable |
+| Theme management | Git submodule (`github.com/nunocoracao/blowfish`) | Version-pinned to a release tag, updatable via `git submodule update` |
+
+## GitHub Pages One-Time Setup
+
+Before the workflow can deploy, the GitHub repo must be configured to serve from Actions:
+
+1. Go to repo **Settings → Pages → Source**
+2. Select **"GitHub Actions"** (not "Deploy from a branch")
+
+This is required once. Without it, deployments succeed but nothing is served.
 
 ## GitHub Actions Workflow
 
@@ -48,9 +57,11 @@ File: `.github/workflows/hugo.yaml`
 - Builds with `--gc --minify`, injects `baseURL` dynamically from `configure-pages`
 - Uploads artifact and deploys via `actions/deploy-pages@v5`
 
-Hugo version is pinned in the workflow `env:` block for reproducible builds.
+Hugo version is pinned in the workflow `env:` block for reproducible builds. The `actions/*` steps use major-version floating tags (e.g. `@v5`) per GitHub's recommended practice — this is intentional.
 
 ## Theme: Blowfish
+
+Submodule source: `https://github.com/nunocoracao/blowfish.git` (pin to latest release tag at setup time)
 
 Key features included out of the box:
 - Auto dark/light mode (follows OS preference + manual toggle)
@@ -62,6 +73,33 @@ Key features included out of the box:
 - Code syntax highlighting + copy button
 - Responsive / mobile-friendly
 - Mermaid diagrams and KaTeX math (available when needed)
+
+## Site Configuration
+
+Minimal `hugo.yaml` skeleton:
+
+```yaml
+baseURL: "https://ogthemepark.github.io/"
+languageCode: "en-us"
+title: "ogthemepark"
+theme: "blowfish"
+
+params:
+  colorScheme: "ocean"        # blowfish built-in schemes: avocado, ocean, fire, slate, etc.
+  defaultAppearance: "dark"   # "light" or "dark"
+  autoSwitchAppearance: true  # follows OS preference
+
+menus:
+  main:
+    - name: Posts
+      pageRef: /posts
+      weight: 10
+    - name: Tags
+      pageRef: /tags
+      weight: 20
+```
+
+Full config reference: https://blowfish.page/docs/configuration/
 
 ## Content Structure
 
